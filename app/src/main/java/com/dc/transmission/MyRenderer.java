@@ -2,9 +2,13 @@ package com.dc.transmission;
 
 import android.opengl.GLSurfaceView;
 
+import com.threed.jpct.Camera;
 import com.threed.jpct.FrameBuffer;
+import com.threed.jpct.Light;
 import com.threed.jpct.RGBColor;
+import com.threed.jpct.SimpleVector;
 import com.threed.jpct.World;
+import com.threed.jpct.util.MemoryHelper;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -14,8 +18,11 @@ import javax.microedition.khronos.opengles.GL10;
  */
 
 public class MyRenderer implements GLSurfaceView.Renderer {
+    private GameDatabase gd=GameDatabase.getInstance();
     private FrameBuffer fb=null;
     private World world=null;
+    private Camera camera=null;
+    private Light[] lights=null;
 
     private RGBColor backColor=new RGBColor(0,0,0);
 
@@ -32,8 +39,13 @@ public class MyRenderer implements GLSurfaceView.Renderer {
             fb.dispose();
         }
         fb=new FrameBuffer(gl,width,height);
+
         if(MainActivity.master==null){
-            //init world
+            initWorld();
+            MemoryHelper.compact();
+            if(MainActivity.master==null){
+                MainActivity.master=gd.getMainActivity();
+            }
         }
     }
 
@@ -46,9 +58,19 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         world.draw(fb);
         fb.display();
         if(System.currentTimeMillis()-time>=1000){
+            System.out.println(fps);
             fps=0;
             time= System.currentTimeMillis();
         }
         fps++;
+    }
+
+    private void initWorld() {
+        world = new World();
+        world.setAmbientLight(127, 127, 127);
+        lights=null;
+        camera=world.getCamera();
+        camera.setPosition(new SimpleVector(0,0,0));
+        camera.lookAt(new SimpleVector(0,0,0));
     }
 }
