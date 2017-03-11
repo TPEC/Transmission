@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.WindowManager;
 
+import com.threed.jpct.util.AAConfigChooser;
+
 import java.lang.reflect.Field;
 
 import javax.microedition.khronos.egl.EGL10;
@@ -24,11 +26,16 @@ public class MainActivity extends AppCompatActivity {
         if(master!=null){
             copy(master);
         }
-
+        gd.setResources(getResources());
         super.onCreate(savedInstanceState);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         gd.setMainActivity(this);
         glSv=new GLSurfaceView(getApplication());
+        //ogles2
+        glSv.setEGLContextClientVersion(2);
+        //anti-aliasing
+        glSv.setEGLConfigChooser(new AAConfigChooser(glSv));
+
         glSv.setEGLConfigChooser(new GLSurfaceView.EGLConfigChooser() {
             @Override
             public EGLConfig chooseConfig(EGL10 egl, EGLDisplay display) {
@@ -64,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+
         return super.onTouchEvent(event);
     }
 

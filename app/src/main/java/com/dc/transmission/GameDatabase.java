@@ -1,5 +1,7 @@
 package com.dc.transmission;
 
+import android.content.res.Resources;
+
 /**
  * Created by XIeQian on 2017/3/7.
  */
@@ -16,6 +18,11 @@ public class GameDatabase {
 
     private MainActivity mainActivity=null;
     private MyRenderer renderer=null;
+    private Resources resources;
+
+    public void setResources(Resources resources) {
+        this.resources = resources;
+    }
 
     public void setMainActivity(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
@@ -23,7 +30,7 @@ public class GameDatabase {
 
     public MyRenderer getRenderer() {
         if(renderer==null)
-            renderer=new MyRenderer();
+            renderer=new MyRenderer(resources);
         return renderer;
     }
 
