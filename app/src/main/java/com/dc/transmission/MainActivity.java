@@ -1,59 +1,79 @@
 package com.dc.transmission;
 
 import android.content.pm.ActivityInfo;
-import android.opengl.GLSurfaceView;
+import android.media.SoundPool;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.WindowManager;
 
-import com.threed.jpct.util.AAConfigChooser;
-
-import java.lang.reflect.Field;
-
-import javax.microedition.khronos.egl.EGL10;
-import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.egl.EGLDisplay;
+import static com.dc.transmission.gameData.Constant.SCREEN_HEIGHT;
+import static com.dc.transmission.gameData.Constant.SCREEN_WIDTH;
+import static com.dc.transmission.gameData.Constant.ratio_height;
+import static com.dc.transmission.gameData.Constant.ratio_width;
 
 public class MainActivity extends AppCompatActivity {
-    public static MainActivity master=null;
-    private GameDatabase gd=GameDatabase.getInstance();
-
-    private GLSurfaceView glSv;
+    TGLSurfaceView tglSV;
+    Handler handler;
+    SoundPool soundPool;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if(master!=null){
-            copy(master);
-        }
-        gd.setResources(getResources());
         super.onCreate(savedInstanceState);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        gd.setMainActivity(this);
-        glSv=new GLSurfaceView(getApplication());
-        //ogles2
-        glSv.setEGLContextClientVersion(2);
-        //anti-aliasing
-        glSv.setEGLConfigChooser(new AAConfigChooser(glSv));
+        tglSV=new TGLSurfaceView(this);
+        initScreen();
+        initHandler();
+        initSound();
+        initDatabase();
 
-        glSv.setEGLConfigChooser(new GLSurfaceView.EGLConfigChooser() {
+    }
+
+    public void initScreen(){
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        DisplayMetrics dm=new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int tempHeight=(int) (SCREEN_HEIGHT=dm.heightPixels);
+        int tempWidth=(int) (SCREEN_WIDTH=dm.widthPixels);
+        if(tempHeight<tempWidth)
+        {
+            SCREEN_HEIGHT=tempHeight;
+            SCREEN_WIDTH=tempWidth;
+        }
+        else
+        {
+            SCREEN_HEIGHT=tempWidth;
+            SCREEN_WIDTH=tempHeight;
+        }
+        ratio_width=SCREEN_WIDTH/800;
+        ratio_height=SCREEN_HEIGHT/480;
+    }
+    public void initHandler(){
+        handler=new Handler(){
             @Override
-            public EGLConfig chooseConfig(EGL10 egl, EGLDisplay display) {
-                int[] attributes = new int[] { EGL10.EGL_DEPTH_SIZE, 16, EGL10.EGL_NONE };
-                EGLConfig[] configs = new EGLConfig[1];
-                int[] result = new int[1];
-                egl.eglChooseConfig(display, attributes, configs, 1, result);
-                return configs[0];
+            public void handleMessage(Message msg) {
+                switch (msg.what){
+                    case 1:
+
+                        break;
+                }
             }
-        });
-        glSv.setRenderer(gd.getRenderer());
-        setContentView(glSv);
+        };
+    }
+    public void initSound(){
+
+    }
+    public void initDatabase(){
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        glSv.onPause();
+        tglSV.onPause();
     }
 
     @Override
@@ -61,29 +81,11 @@ public class MainActivity extends AppCompatActivity {
         if(getRequestedOrientation()!= ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE)
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
         super.onResume();
-        glSv.onResume();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
+        tglSV.onResume();
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-
         return super.onTouchEvent(event);
-    }
-
-    private void copy(Object src) {
-        try {
-            Field[] fs = src.getClass().getDeclaredFields();
-            for (Field f : fs) {
-                f.setAccessible(true);
-                f.set(this, f.get(src));
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 }

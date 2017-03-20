@@ -1,6 +1,8 @@
-package com.dc.transmission;
+package com.dc.transmission.jPCT;
 
 import android.content.res.Resources;
+
+import com.dc.transmission.MainActivity;
 
 /**
  * Created by XIeQian on 2017/3/7.

@@ -1,10 +1,13 @@
-package com.dc.transmission;
+package com.dc.transmission.jPCT;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLSurfaceView;
 
+import com.dc.transmission.Level;
+import com.dc.transmission.MainActivity;
+import com.dc.transmission.R;
 import com.threed.jpct.Camera;
 import com.threed.jpct.FrameBuffer;
 import com.threed.jpct.Light;
@@ -58,7 +61,7 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         textureManager=TextureManager.getInstance();
         if(MainActivity.master==null){
             //initialize the world
-            Bitmap bmp=BitmapFactory.decodeResource(resources,R.mipmap.ic_launcher);
+            Bitmap bmp=BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher);
             Texture texture=new Texture(BitmapHelper.rescale(bmp, 64, 64));
             textureManager.addTexture("outer",texture);
             initWorld(null);
