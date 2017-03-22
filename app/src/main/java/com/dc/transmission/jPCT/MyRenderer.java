@@ -1,25 +1,18 @@
 package com.dc.transmission.jPCT;
 
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.opengl.GLSurfaceView;
 
 import com.dc.transmission.Level;
-import com.dc.transmission.MainActivity;
-import com.dc.transmission.R;
 import com.threed.jpct.Camera;
 import com.threed.jpct.FrameBuffer;
 import com.threed.jpct.Light;
 import com.threed.jpct.Object3D;
 import com.threed.jpct.RGBColor;
 import com.threed.jpct.SimpleVector;
-import com.threed.jpct.Texture;
 import com.threed.jpct.TextureManager;
 import com.threed.jpct.World;
-import com.threed.jpct.util.BitmapHelper;
 import com.threed.jpct.util.ExtendedPrimitives;
-import com.threed.jpct.util.MemoryHelper;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -59,18 +52,18 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         }
         fb=new FrameBuffer(width,height);
         textureManager=TextureManager.getInstance();
-        if(MainActivity.master==null){
-            //initialize the world
-            Bitmap bmp=BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher);
-            Texture texture=new Texture(BitmapHelper.rescale(bmp, 64, 64));
-            textureManager.addTexture("outer",texture);
-            initWorld(null);
-
-            MemoryHelper.compact();
-            if(MainActivity.master==null){
-                MainActivity.master=gd.getMainActivity();
-            }
-        }
+//        if(MainActivity.master==null){
+//            //initialize the world
+//            Bitmap bmp=BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher);
+//            Texture texture=new Texture(BitmapHelper.rescale(bmp, 64, 64));
+//            textureManager.addTexture("outer",texture);
+//            initWorld(null);
+//
+//            MemoryHelper.compact();
+//            if(MainActivity.master==null){
+//                MainActivity.master=gd.getMainActivity();
+//            }
+//        }
     }
 
     public void initWorld(Level level){

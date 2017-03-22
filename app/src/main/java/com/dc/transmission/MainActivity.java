@@ -23,12 +23,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tglSV=new TGLSurfaceView(this);
         initScreen();
+        tglSV=new TGLSurfaceView(this);
         initHandler();
         initSound();
         initDatabase();
-
+        setContentView(tglSV);
     }
 
     public void initScreen(){
