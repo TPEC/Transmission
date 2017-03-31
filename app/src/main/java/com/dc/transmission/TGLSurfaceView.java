@@ -40,7 +40,8 @@ public class TGLSurfaceView extends GLSurfaceView {
             GLES20.glClearColor(0.0f,0.0f,0.0f, 1.0f);
             GLES20.glEnable(GLES20.GL_CULL_FACE);
             GLES20.glEnable(GLES20.GL_DEPTH_TEST);
-
+            MatrixState.setInitStack();
+            
         }
 
         @Override

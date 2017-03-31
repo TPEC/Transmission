@@ -90,27 +90,11 @@ public class MatrixState {
         cameraFB.position(0);
     }
 
-    public static void setProjectFrustum
-    (
-            float left,
-            float right,
-            float bottom,
-            float top,
-            float near,
-            float far
-    ) {
+    public static void setProjectFrustum(float left, float right, float bottom, float top, float near, float far) {
         Matrix.frustumM(mProjMatrix, 0, left, right, bottom, top, near, far);
     }
 
-    public static void setProjectOrtho
-    (
-            float left,
-            float right,
-            float bottom,
-            float top,
-            float near,
-            float far
-    ) {
+    public static void setProjectOrtho(float left, float right, float bottom, float top, float near, float far) {
         Matrix.orthoM(mProjMatrix, 0, left, right, bottom, top, near, far);
     }
 
