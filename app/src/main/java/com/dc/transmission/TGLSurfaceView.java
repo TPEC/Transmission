@@ -31,6 +31,7 @@ public class TGLSurfaceView extends GLSurfaceView {
     @Override
     public boolean onTouchEvent(MotionEvent e)
     {
+        int a=0;//some tests on git
         return true;
     }
 
