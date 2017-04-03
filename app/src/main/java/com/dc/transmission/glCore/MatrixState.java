@@ -1,4 +1,4 @@
-package com.dc.transmission;
+package com.dc.transmission.glCore;
 
 import android.opengl.Matrix;
 
@@ -112,13 +112,20 @@ public class MatrixState {
         return mMVPMatrix;
     }
 
+    public static float[] getFinalMatrix(float[] spec)
+    {
+        mMVPMatrix=new float[16];
+        Matrix.multiplyMM(mMVPMatrix, 0, mVMatrix, 0, spec, 0);
+        Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mMVPMatrix, 0);
+        return mMVPMatrix;
+    }
+
     public static float[] getMMatrix() {
         return currMatrix;
     }
 
     static ByteBuffer llbbL = ByteBuffer.allocateDirect(3*4);
-    public static void setLightLocation(float x,float y,float z)
-    {
+    public static void setLightLocation(float x,float y,float z) {
         llbbL.clear();
 
         lightLocation[0]=x;

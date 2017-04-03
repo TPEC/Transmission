@@ -10,6 +10,8 @@ import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.WindowManager;
 
+import com.dc.transmission.glCore.TGLSurfaceView;
+
 import static com.dc.transmission.gameData.Constant.SCREEN_HEIGHT;
 import static com.dc.transmission.gameData.Constant.SCREEN_WIDTH;
 import static com.dc.transmission.gameData.Constant.ratio_height;

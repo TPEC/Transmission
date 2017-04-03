@@ -1,9 +1,11 @@
-package com.dc.transmission;
+package com.dc.transmission.glCore;
 
 import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
+
+import com.dc.transmission.MainActivity;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -29,8 +31,7 @@ public class TGLSurfaceView extends GLSurfaceView {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent e)
-    {
+    public boolean onTouchEvent(MotionEvent e) {
         int a=0;//some tests on git
         return true;
     }
@@ -63,6 +64,10 @@ public class TGLSurfaceView extends GLSurfaceView {
         public void drawGameScene(){
             MatrixState.setProjectFrustum(-ratio, ratio, -1, 1, 3, 40000);
             MatrixState.pushMatrix();
+
+            //walls
+            //door
+
 
             MatrixState.popMatrix();
         }
