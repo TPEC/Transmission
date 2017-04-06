@@ -7,11 +7,12 @@ package com.dc.transmission.glObjects;
 public class Role implements TGLObjects {
     private float[] pos;
     private float[] vel;
+    private float[] cam;
 
     public Role(){
         pos=new float[3];
         vel=new float[3];
-
+        cam=new float[6];
     }
 
     @Override
