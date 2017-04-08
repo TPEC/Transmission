@@ -1,5 +1,7 @@
 package com.dc.transmission.glObjects;
 
+import com.dc.transmission.gameData.Constant;
+
 /**
  * Created by helynn on 2017/4/7.
  */
@@ -34,16 +36,14 @@ public class Wall implements TGLObjects {
 
     public Wall(String sData){//通过sData初始化，sData是以英文逗号分隔的数字，依次对应nVec,md,width,height,如“1,0,0,5,3.3,1.5,2.2,3,5”
         String[] strData = sData.split(",");
-        float[] nVecData;
-        float[] mdData;
+        nVec=new float[3];
+        md=new float[3];
         for (int i = 0;i <= 2;i++){
-            nVecData[i]=Float.parseFloat(strData[i]);
+            nVec[i]=Float.parseFloat(strData[i]);
         }
         for (int i = 3; i <= 5; i++) {
-            mdData[i-3] = Float.parseFloat(strData[i]);
+            md[i-3] = Float.parseFloat(strData[i]);
         }
-        setnVec(nVecData);
-        setMd(mdData);
         width = Float.parseFloat(strData[6]);
         height = Float.parseFloat(strData[7]);
 
