@@ -33,10 +33,20 @@ public class Wall implements TGLObjects {
     }
 
     public Wall(String sData){//通过sData初始化，sData是以英文逗号分隔的数字，依次对应nVec,md,width,height,如“1,0,0,5,3.3,1.5,2.2,3,5”
-        nVec=sData[0];
-        md=sData[1];
-        width=sData[2];
-        height=sData[3];
+        String[] strData = sData.split(",");
+        float[] nVecData;
+        float[] mdData;
+        for (int i = 0;i <= 2;i++){
+            nVecData[i]=Float.parseFloat(strData[i]);
+        }
+        for (int i = 3; i <= 5; i++) {
+            mdData[i-3] = Float.parseFloat(strData[i]);
+        }
+        setnVec(nVecData);
+        setMd(mdData);
+        width = Float.parseFloat(strData[6]);
+        height = Float.parseFloat(strData[7]);
+
     }
 
     public boolean checkCollision(float[] pos,float[] vel){//检测碰撞，输入位置向量、速度向量，返回是否碰撞，并修改速度向量，使得pos+vel刚好贴墙。墙的厚度为Constant.WALL_WIDTH
