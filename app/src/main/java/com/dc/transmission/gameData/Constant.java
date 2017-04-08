@@ -10,4 +10,6 @@ public class Constant {
 
     public static float ratio_width;
     public static float ratio_height;
+
+    public static float WALL_WIDTH=1f;
 }
