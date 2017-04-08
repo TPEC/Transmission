@@ -48,6 +48,13 @@ public class MoveController implements TGLObjects {
             }
         }
         if (moveID>=0){
+            for (int i = 0; i < pointerCount; i++) {
+                if (event.getPointerId(i)==moveID) {
+                    x = event.getX(i);
+                    y = event.getY(i);
+                    break;
+                }
+            }
             if (x==MOVE_X && y==MOVE_Y) {
                 moveVector[0]=0;
                 moveVector[1]=0;
