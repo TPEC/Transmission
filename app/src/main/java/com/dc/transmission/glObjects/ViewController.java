@@ -18,6 +18,14 @@ public class ViewController implements TGLObjects {
 
     }
 
+    public float[] getMoveVector(){
+        return viewVector;
+    }
+
+    public boolean getClickDown(){
+        return (viewID!=-1);
+    }
+
     private boolean OnTouchEvent (MotionEvent event){
         int pointerCount = event.getPointerCount();
         int action = event.getActionMasked();
