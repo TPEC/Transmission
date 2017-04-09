@@ -6,6 +6,11 @@ import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
 
 import com.dc.transmission.MainActivity;
+import com.dc.transmission.glObjects.MoveController;
+import com.dc.transmission.glObjects.Portal;
+import com.dc.transmission.glObjects.PortalController;
+import com.dc.transmission.glObjects.Role;
+import com.dc.transmission.glObjects.WallsManager;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -19,6 +24,10 @@ public class TGLSurfaceView extends GLSurfaceView {
     private TRenderer tRenderer;
     public float ratio;
 
+    private MoveController moveController;
+    private PortalController portalController;
+
+
     public TGLSurfaceView(Context context) {
         super(context);
         activity= (MainActivity) context;
@@ -27,16 +36,30 @@ public class TGLSurfaceView extends GLSurfaceView {
         setRenderer(tRenderer);
         setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
         this.setKeepScreenOn(true);
-
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent e) {
+    public boolean onTouchEvent(MotionEvent event) {
+        moveController.onTouchEvent(event);
+        portalController.onTouchEvent(event);
+        if(moveController.getClickDown()) {
 
+        }
+        if(portalController.getClicked()){
+
+        }
         return true;
     }
 
     private class TRenderer implements Renderer{
+        private Role role;
+        private WallsManager wallsManager;
+        private Portal[] portals;
+
+        public TRenderer(){
+            portals=new Portal[2];
+        }
+
         @Override
         public void onSurfaceCreated(GL10 gl, EGLConfig config) {
             GLES20.glClearColor(0.0f,0.0f,0.0f, 1.0f);
@@ -57,22 +80,23 @@ public class TGLSurfaceView extends GLSurfaceView {
         public void onDrawFrame(GL10 gl) {
             GLES20.glClear( GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
 
+            gameLogic();
             drawGameScene();
             drawHUD();
         }
 
-        public void drawGameScene(){
+        private void drawGameScene(){
             MatrixState.setProjectFrustum(-ratio, ratio, -1, 1, 3, 40000);
             MatrixState.pushMatrix();
 
-            //walls
-            //door
+            wallsManager.draw(0);
+            role.draw(0);
 
 
             MatrixState.popMatrix();
         }
 
-        public void drawHUD(){
+        private void drawHUD(){
             MatrixState.pushMatrix();
             MatrixState.setProjectOrtho(-ratio, ratio,-1f,1f,1,10);
             MatrixState.setCamera(0, 0, 0, 0, 0,-1, 0, 1, 0);
@@ -81,6 +105,10 @@ public class TGLSurfaceView extends GLSurfaceView {
             GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
             MatrixState.popMatrix();
+        }
+
+        private void gameLogic(){
+
         }
     }
 }

@@ -8,13 +8,14 @@ import android.view.MotionEvent;
 
 public class PortalController implements TGLObjects {
     private int portalID=-1;
+    private boolean clicked=false;
 
     @Override
     public void draw(int texId) {
 
     }
 
-    private boolean OnTouchEvent (MotionEvent event){
+    public boolean onTouchEvent (MotionEvent event){
         int pointerCount = event.getPointerCount();
         int action = event.getActionMasked();
         float x = 0, y = 0;
@@ -31,6 +32,7 @@ public class PortalController implements TGLObjects {
             }
         }else if (action==MotionEvent.ACTION_UP || action==MotionEvent.ACTION_POINTER_UP) {
             if (event.getPointerId(event.getActionIndex()) == portalID) {
+                clicked=true;
                 portalID = -1;
                 return true;
             }
@@ -44,6 +46,14 @@ public class PortalController implements TGLObjects {
                 }
             }
             ////////////////////////////////////////////////
+            return true;
+        }
+        return false;
+    }
+
+    public boolean getClicked(){
+        if(clicked){
+            clicked=false;
             return true;
         }
         return false;

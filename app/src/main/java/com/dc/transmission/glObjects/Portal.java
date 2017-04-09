@@ -1,12 +1,10 @@
 package com.dc.transmission.glObjects;
 
 /**
- * Created by XIeQian on 2017/4/3.
+ * Created by XIeQian on 2017/4/9.
  */
 
-public class VerticalWalls implements TGLObjects {
-
-
+public class Portal implements TGLObjects {
     @Override
     public void draw(int texId) {
 

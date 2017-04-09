@@ -26,7 +26,7 @@ public class MoveController implements TGLObjects {
         return (moveID!=-1);
     }
 
-    public boolean OnTouchEvent(MotionEvent event){
+    public boolean onTouchEvent(MotionEvent event){
         int pointerCount = event.getPointerCount();
         int action = event.getActionMasked();
         float x = 0, y = 0;

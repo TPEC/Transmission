@@ -11,6 +11,8 @@ public class Wall implements TGLObjects {
     private float[] md;
     private float width,height;
 
+    private RectTex rectTex;
+
     public void setnVec(float[] nVec) {
         this.nVec = nVec;
     }
@@ -104,6 +106,6 @@ public class Wall implements TGLObjects {
 
     @Override
     public void draw(int texId) {
-
+        rectTex.draw(texId);
     }
 }
