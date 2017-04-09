@@ -15,6 +15,31 @@ public class Role implements TGLObjects {
         cam=new float[6];
     }
 
+    public void setPos(float[] pos) {
+        this.pos = pos;
+    }
+
+    public void setVel(float[] vel) {
+        this.vel = vel;
+    }
+
+    public float[] getPos() {
+        return pos;
+    }
+
+    public float[] getVel() {
+        return vel;
+    }
+
+    public float[] getCam() {
+        return cam;
+    }
+
+    public void runLogic(){
+        for(int i=0;i<3;i++)
+            pos[i]+=vel[i];
+    }
+
     @Override
     public void draw(int texId) {
 

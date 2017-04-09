@@ -1,6 +1,7 @@
 package com.dc.transmission.glCore;
 
 import android.content.Context;
+import android.graphics.RectF;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
@@ -14,6 +15,8 @@ import com.dc.transmission.glObjects.WallsManager;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+
+import static com.dc.transmission.gameData.Constant.VEL_SCALE;
 
 /**
  * Created by XIeQian on 2017/3/20.
@@ -36,6 +39,8 @@ public class TGLSurfaceView extends GLSurfaceView {
         setRenderer(tRenderer);
         setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
         this.setKeepScreenOn(true);
+
+        moveController=new MoveController(new RectF(80,420,320,660));
     }
 
     @Override
@@ -43,7 +48,7 @@ public class TGLSurfaceView extends GLSurfaceView {
         moveController.onTouchEvent(event);
         portalController.onTouchEvent(event);
         if(moveController.getClickDown()) {
-
+            tRenderer.setRoleVel(moveController.getMoveVector());
         }
         if(portalController.getClicked()){
 
@@ -58,6 +63,21 @@ public class TGLSurfaceView extends GLSurfaceView {
 
         public TRenderer(){
             portals=new Portal[2];
+            wallsManager=new WallsManager();
+            role=new Role();
+            portals[0]=new Portal();
+            portals[1]=new Portal();
+        }
+
+        public void setRoleVel(float[] vel){
+            float[] vel3=new float[3];
+            float[] rcam=role.getCam();
+            vel3[1]=-9.8f * VEL_SCALE;
+            //need to fix
+            vel3[0]=(rcam[0]*vel[0])*VEL_SCALE;
+            vel3[2]=(rcam[0]*vel[0])*VEL_SCALE;
+            //---
+            role.setVel(vel3);
         }
 
         @Override
@@ -66,7 +86,6 @@ public class TGLSurfaceView extends GLSurfaceView {
             GLES20.glEnable(GLES20.GL_CULL_FACE);
             GLES20.glEnable(GLES20.GL_DEPTH_TEST);
             MatrixState.setInitStack();
-            
         }
 
         @Override
@@ -108,7 +127,8 @@ public class TGLSurfaceView extends GLSurfaceView {
         }
 
         private void gameLogic(){
-
+            wallsManager.calcCollision(role.getPos(),role.getVel());
+            role.runLogic();
         }
     }
 }

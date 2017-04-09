@@ -12,4 +12,7 @@ public class Constant {
     public static float ratio_height;
 
     public static float WALL_WIDTH=1f;
+
+    public static float VEL_SCALE=0.1f;
+    public static float POS_SCALE=0.1f;
 }

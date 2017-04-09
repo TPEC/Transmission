@@ -1,5 +1,6 @@
 package com.dc.transmission.glObjects;
 
+import android.graphics.RectF;
 import android.view.MotionEvent;
 
 /**
@@ -8,10 +9,18 @@ import android.view.MotionEvent;
 
 public class MoveController implements TGLObjects {
     private float[] moveVector = new float[2];
-    private float mvecLength;
+    private float mVecLength;
     private int moveID=-1;
-    private static final int MOVE_X=200;
-    private static final int MOVE_Y=540;
+
+    private RectF rectDst;
+    private float rectDstMX;
+    private float rectDstMY;
+
+    public MoveController(RectF rectDst){
+        this.rectDst=rectDst;
+        rectDstMX=rectDst.centerX();
+        rectDstMY=rectDst.centerY();
+    }
 
     @Override
     public void draw(int texId) {
@@ -35,7 +44,7 @@ public class MoveController implements TGLObjects {
                 for (int i = 0; i < pointerCount; i++) {
                     x = event.getX(i);
                     y = event.getY(i);
-                    if (x>=80 && x<=320 && y>=420 && y<= 660) {
+                    if (rectDst.contains(x,y)) {
                         moveID = event.getPointerId(i);
                         break;
                     }
@@ -55,16 +64,16 @@ public class MoveController implements TGLObjects {
                     break;
                 }
             }
-            if (x==MOVE_X && y==MOVE_Y) {
+            if (x== rectDstMX && y== rectDstMY) {
                 moveVector[0]=0;
                 moveVector[1]=0;
             }
             else{
-                moveVector[0] = x - MOVE_X;
-                moveVector[1] = y - MOVE_Y;
-                mvecLength = (float) Math.sqrt(Math.pow(moveVector[0], 2) + Math.pow(moveVector[1], 2));
-                moveVector[0] = moveVector[0] / mvecLength;
-                moveVector[1] = moveVector[1] / mvecLength;
+                moveVector[0] = x - rectDstMX;
+                moveVector[1] = y - rectDstMY;
+                mVecLength = (float) Math.sqrt(moveVector[0]*moveVector[0] + moveVector[1]*moveVector[1]);
+                moveVector[0] = moveVector[0] / mVecLength;
+                moveVector[1] = moveVector[1] / mVecLength;
             }
             return true;
         }
