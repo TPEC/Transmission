@@ -6,7 +6,7 @@ package com.dc.transmission.glObjects;
 
 public class Portal implements TGLObjects {
     @Override
-    public void draw(int texId) {
+    public void draw() {
 
     }
 }

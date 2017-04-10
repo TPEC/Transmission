@@ -7,6 +7,7 @@ import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
 
 import com.dc.transmission.MainActivity;
+import com.dc.transmission.gameData.TexFactory;
 import com.dc.transmission.gameData.VecFactory;
 import com.dc.transmission.glObjects.MoveController;
 import com.dc.transmission.glObjects.Portal;
@@ -37,7 +38,9 @@ public class TGLSurfaceView extends GLSurfaceView {
 
     public TGLSurfaceView(Context context) {
         super(context);
+        TexFactory.glSv=this;
         activity= (MainActivity) context;
+
         this.setEGLContextClientVersion(2);
         tRenderer=new TRenderer();
         setRenderer(tRenderer);
@@ -78,6 +81,8 @@ public class TGLSurfaceView extends GLSurfaceView {
             role=new Role();
             portals[0]=new Portal();
             portals[1]=new Portal();
+
+            wallsManager.initTexture();
         }
 
         public void setRoleVel(float[] vVel){
@@ -140,8 +145,8 @@ public class TGLSurfaceView extends GLSurfaceView {
             MatrixState.setProjectFrustum(-ratio, ratio, -1, 1, 3, 40000);
             MatrixState.pushMatrix();
 
-            wallsManager.draw(0);
-            role.draw(0);
+            wallsManager.draw();
+            role.draw();
 
             MatrixState.popMatrix();
         }
@@ -154,7 +159,7 @@ public class TGLSurfaceView extends GLSurfaceView {
             GLES20.glEnable(GLES20.GL_BLEND);
             GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
-            moveController.draw(0);
+            moveController.draw();
 
             MatrixState.popMatrix();
         }

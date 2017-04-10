@@ -5,5 +5,5 @@ package com.dc.transmission.glObjects;
  */
 
 public interface TGLObjects {
-    void draw(int texId);
+    void draw();
 }

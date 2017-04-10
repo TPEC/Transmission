@@ -11,7 +11,7 @@ public class PortalController implements TGLObjects {
     private boolean clicked=false;
 
     @Override
-    public void draw(int texId) {
+    public void draw() {
 
     }
 

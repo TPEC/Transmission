@@ -23,7 +23,7 @@ public class ViewController implements TGLObjects {
     }
 
     @Override
-    public void draw(int texId) {
+    public void draw() {
 
     }
 

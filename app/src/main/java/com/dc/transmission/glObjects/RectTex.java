@@ -17,7 +17,7 @@ import static com.dc.transmission.glCore.ShaderUtil.createProgram;
  * Created by XIeQian on 2017/4/3.
  */
 
-public class RectTex implements TGLObjects {
+public class RectTex {
     private static float UNIT_SIZE=1f;
 
     int mProgram;//自定义渲染管线程序id
@@ -87,7 +87,6 @@ public class RectTex implements TGLObjects {
         muMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
     }
 
-    @Override
     public void draw(int texId) {
         //制定使用某套shader程序
         GLES20.glUseProgram(mProgram);

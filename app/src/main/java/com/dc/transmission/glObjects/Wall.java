@@ -1,15 +1,19 @@
 package com.dc.transmission.glObjects;
 
 import com.dc.transmission.gameData.Constant;
+import com.dc.transmission.glCore.TGLSurfaceView;
 
 /**
  * Created by helynn on 2017/4/7.
  */
 
 public class Wall implements TGLObjects {
+    private static float WALL_UNIT_LENGTH=0.1f;
+
     private float[] nVec;
     private float[] md;
     private float width,height;
+    private int textureID;
 
     private RectTex rectTex;
 
@@ -23,17 +27,24 @@ public class Wall implements TGLObjects {
 
     public void setWidth(float width) {
         this.width = width;
+        rectTex.sRange=width/WALL_UNIT_LENGTH;
     }
 
     public void setHeight(float height) {
         this.height = height;
+        rectTex.tRange=height/WALL_UNIT_LENGTH;
     }
 
-    public Wall(){
+    public Wall(TGLSurfaceView glSv){
         nVec=new float[3];
         md=new float[3];
         this.width=0;
         this.height=0;
+        rectTex=new RectTex(glSv);
+    }
+
+    public void setTextureID(int textureID) {
+        this.textureID = textureID;
     }
 
     public Wall(String sData){//通过sData初始化，sData是以英文逗号分隔的数字，依次对应nVec,md,width,height,如“1,0,0,5,3.3,1.5,2.2,3,5”
@@ -105,7 +116,7 @@ public class Wall implements TGLObjects {
     }
 
     @Override
-    public void draw(int texId) {
-        rectTex.draw(texId);
+    public void draw() {
+        rectTex.draw(textureID);
     }
 }

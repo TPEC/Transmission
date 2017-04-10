@@ -1,30 +1,48 @@
 package com.dc.transmission.glObjects;
 
+import com.dc.transmission.gameData.TexFactory;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by XIeQian on 2017/4/3.
  */
 
 public class WallsManager implements TGLObjects {
-    private Wall[] walls;
+    private List<Wall> walls;
+    private int[] textureID;
 
     public WallsManager(){
-
+        walls=new ArrayList<>();
     }
 
-    public void initWalls(int wallCount){
-        walls=new Wall[wallCount];
+    public void clearWalls(){
+        walls.clear();
+    }
+
+    public void addWall(){
+        Wall wall=new Wall(TexFactory.glSv);
+        wall.setTextureID(0);
+        wall.set
+        walls.add(wall);
     }
 
     public void calcCollision(float[] pos, float[] vel){
-        for(int i=0;i<walls.length;i++){
-            walls[i].checkCollision(pos,vel);
+        for(Wall w:walls){
+            w.checkCollision(pos,vel);
         }
     }
 
     @Override
-    public void draw(int texId) {
-        for(int i=0;i<walls.length;i++){
-            walls[i].draw(texId);
+    public void draw() {
+        for(Wall w:walls){
+            w.draw();
         }
+    }
+
+    public void initTexture(){
+        textureID =new int[1];
+        textureID[0]=TexFactory.getNewTexture(0,0);
     }
 }

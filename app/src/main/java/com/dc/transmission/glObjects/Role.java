@@ -47,7 +47,7 @@ public class Role implements TGLObjects {
     }
 
     @Override
-    public void draw(int texId) {
+    public void draw() {
 
     }
 }
