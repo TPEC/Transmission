@@ -15,4 +15,5 @@ public class Constant {
 
     public static float VEL_SCALE=0.1f;
     public static float POS_SCALE=0.1f;
+    public static float CAM_SCALE=0.1f;//划屏速度
 }

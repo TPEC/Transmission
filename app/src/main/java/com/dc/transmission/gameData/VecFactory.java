@@ -39,4 +39,20 @@ public class VecFactory {
         vec[0]*=k;
         vec[1]*=k;
     }
+
+    public static void rotate2(float[] vec,float[] ur){
+        float v0=ur[0]*vec[0]-ur[1]*vec[1];
+        float v1=ur[1]*vec[0]+ur[0]*vec[1];
+        vec[0]=v0;
+        vec[1]=v1;
+    }
+
+    public static void rotate3y(float[] vec,float a){
+        float c=(float)Math.cos(a);
+        float s=(float)Math.sin(a);
+        float v0=c*vec[0]-s*vec[2];
+        float v2=c*vec[0]+s*vec[2];
+        vec[0]=v0;
+        vec[2]=v2;
+    }
 }

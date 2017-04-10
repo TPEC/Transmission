@@ -65,15 +65,9 @@ public class MoveController implements TGLObjects {
                     break;
                 }
             }
-            if (x== rectDstMX && y== rectDstMY) {
-                moveVector[0]=0;
-                moveVector[1]=0;
-            }
-            else{
-                moveVector[0] = x - rectDstMX;
-                moveVector[1] = y - rectDstMY;
-                VecFactory.unitize2(moveVector);
-            }
+            moveVector[0] = x - rectDstMX;
+            moveVector[1] = y - rectDstMY;
+            VecFactory.unitize2(moveVector);
             return true;
         }
         return false;

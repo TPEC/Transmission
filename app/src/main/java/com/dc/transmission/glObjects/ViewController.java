@@ -1,5 +1,6 @@
 package com.dc.transmission.glObjects;
 
+import android.graphics.RectF;
 import android.view.MotionEvent;
 
 /**
@@ -12,6 +13,14 @@ public class ViewController implements TGLObjects {
     private float thisView[] = new float[2];
     private float[] viewVector = new float[2];
     private int viewCounter=0;
+
+    private RectF rectDst;
+    private RectF[] rectExc;
+
+    public ViewController(RectF rectDst,RectF[] rectExc){
+        this.rectDst=rectDst;
+        this.rectExc=rectExc;
+    }
 
     @Override
     public void draw(int texId) {
@@ -26,7 +35,7 @@ public class ViewController implements TGLObjects {
         return (viewID!=-1);
     }
 
-    private boolean OnTouchEvent (MotionEvent event){
+    public boolean onTouchEvent (MotionEvent event){
         int pointerCount = event.getPointerCount();
         int action = event.getActionMasked();
         float x = 0, y = 0;
@@ -35,15 +44,24 @@ public class ViewController implements TGLObjects {
                 for (int i = 0; i < pointerCount; i++) {
                     x = event.getX(i);
                     y = event.getY(i);
-                    if (!(x>=960 && x<=1080 && y>=540 && y<=660)&&!(x>=80 && x<=320 && y>=420 && y<= 660)) {
-                        viewID = event.getPointerId(i);
-                        thisView[0]=0;
-                        thisView[1]=0;
-                        lastView[0]=0;
-                        lastView[1]=0;
-                        viewVector[0]=0;
-                        viewVector[1]=0;
-                        break;
+                    if(rectDst.contains(x,y)){
+                        boolean flag=true;
+                        for(RectF rec:rectExc){
+                            if(rec.contains(x,y)){
+                                flag=false;
+                                break;
+                            }
+                        }
+                        if (flag) {
+                            viewID = event.getPointerId(i);
+                            thisView[0]=0;
+                            thisView[1]=0;
+                            lastView[0]=0;
+                            lastView[1]=0;
+                            viewVector[0]=0;
+                            viewVector[1]=0;
+                            break;
+                        }
                     }
                 }
             }

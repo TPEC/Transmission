@@ -41,8 +41,9 @@ public class Role implements TGLObjects {
     }
 
     public void runLogic(){
-        for(int i=0;i<3;i++)
-            pos[i]+=vel[i];
+        pos[0]+=vel[0];
+        pos[1]+=vel[1];
+        pos[2]+=vel[2];
     }
 
     @Override

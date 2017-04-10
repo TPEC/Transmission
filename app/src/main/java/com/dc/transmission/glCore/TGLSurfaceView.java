@@ -12,11 +12,13 @@ import com.dc.transmission.glObjects.MoveController;
 import com.dc.transmission.glObjects.Portal;
 import com.dc.transmission.glObjects.PortalController;
 import com.dc.transmission.glObjects.Role;
+import com.dc.transmission.glObjects.ViewController;
 import com.dc.transmission.glObjects.WallsManager;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import static com.dc.transmission.gameData.Constant.CAM_SCALE;
 import static com.dc.transmission.gameData.Constant.VEL_SCALE;
 
 /**
@@ -30,6 +32,7 @@ public class TGLSurfaceView extends GLSurfaceView {
 
     private MoveController moveController;
     private PortalController portalController;
+    private ViewController viewController;
 
 
     public TGLSurfaceView(Context context) {
@@ -41,19 +44,26 @@ public class TGLSurfaceView extends GLSurfaceView {
         setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
         this.setKeepScreenOn(true);
 
-        moveController=new MoveController(new RectF(80,420,320,660));
+        RectF rectMC=new RectF(80,420,320,660);
+        moveController=new MoveController(rectMC);
+        RectF rectPC=new RectF();
+        viewController=new ViewController(new RectF(0,0,1280,720),new RectF[]{rectMC,rectPC});
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         moveController.onTouchEvent(event);
 //        portalController.onTouchEvent(event);
+        viewController.onTouchEvent(event);
         if(moveController.getClickDown()) {
             tRenderer.setRoleVel(moveController.getMoveVector());
         }
 //        if(portalController.getClicked()){
 //
 //        }
+        if(viewController.getClickDown()){
+            tRenderer.setRoleCam(viewController.getMoveVector());
+        }
         return true;
     }
 
@@ -70,7 +80,7 @@ public class TGLSurfaceView extends GLSurfaceView {
             portals[1]=new Portal();
         }
 
-        public void setRoleVel(float[] vel){
+        public void setRoleVel(float[] vVel){
             float[] vec3=VecFactory.crossProduct(role.getCam(),role.getCamh());
             float[] vec2=new float[2];
             if(vec3[0]!=0){
@@ -80,7 +90,6 @@ public class TGLSurfaceView extends GLSurfaceView {
                 vec2[0]=1;
                 vec2[1]=-vec3[0]/vec3[2];
             }
-            VecFactory.unitize2(vec2);
             float k=vec2[0]*role.getCam()[0]+vec2[1]*role.getCam()[2];
             if(k>0) {
                 VecFactory.multiply2(vec2, -1f);
@@ -88,12 +97,19 @@ public class TGLSurfaceView extends GLSurfaceView {
                 if(vec2[0]*role.getCamh()[0]+vec2[1]*role.getCamh()[2]<0)
                     VecFactory.multiply2(vec2, -1f);
             }
+            VecFactory.rotate2(vec2,new float[]{-vVel[1],-vVel[0]});
+            VecFactory.unitize2(vec2);
 
             vec3[0]=vec2[0]*VEL_SCALE;
             vec3[1]=-9.8f * VEL_SCALE;
             vec3[2]=vec2[1]*VEL_SCALE;
 
             role.setVel(vec3);
+        }
+        public void setRoleCam(float[] vCam){
+            VecFactory.rotate3y(role.getCam(),vCam[0]*CAM_SCALE);
+            VecFactory.rotate3y(role.getCamh(),vCam[0]*CAM_SCALE);
+            //纵向移动
         }
 
         @Override
