@@ -7,6 +7,7 @@ import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
 
 import com.dc.transmission.MainActivity;
+import com.dc.transmission.gameData.VecFactory;
 import com.dc.transmission.glObjects.MoveController;
 import com.dc.transmission.glObjects.Portal;
 import com.dc.transmission.glObjects.PortalController;
@@ -46,13 +47,13 @@ public class TGLSurfaceView extends GLSurfaceView {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         moveController.onTouchEvent(event);
-        portalController.onTouchEvent(event);
+//        portalController.onTouchEvent(event);
         if(moveController.getClickDown()) {
             tRenderer.setRoleVel(moveController.getMoveVector());
         }
-        if(portalController.getClicked()){
-
-        }
+//        if(portalController.getClicked()){
+//
+//        }
         return true;
     }
 
@@ -70,14 +71,29 @@ public class TGLSurfaceView extends GLSurfaceView {
         }
 
         public void setRoleVel(float[] vel){
-            float[] vel3=new float[3];
-            float[] rcam=role.getCam();
-            vel3[1]=-9.8f * VEL_SCALE;
-            //need to fix
-            vel3[0]=(rcam[0]*vel[0])*VEL_SCALE;
-            vel3[2]=(rcam[0]*vel[0])*VEL_SCALE;
-            //---
-            role.setVel(vel3);
+            float[] vec3=VecFactory.crossProduct(role.getCam(),role.getCamh());
+            float[] vec2=new float[2];
+            if(vec3[0]!=0){
+                vec2[1]=1;
+                vec2[0]=-vec3[2]/vec3[0];
+            }else{
+                vec2[0]=1;
+                vec2[1]=-vec3[0]/vec3[2];
+            }
+            VecFactory.unitize2(vec2);
+            float k=vec2[0]*role.getCam()[0]+vec2[1]*role.getCam()[2];
+            if(k>0) {
+                VecFactory.multiply2(vec2, -1f);
+            }else if(k==0){
+                if(vec2[0]*role.getCamh()[0]+vec2[1]*role.getCamh()[2]<0)
+                    VecFactory.multiply2(vec2, -1f);
+            }
+
+            vec3[0]=vec2[0]*VEL_SCALE;
+            vec3[1]=-9.8f * VEL_SCALE;
+            vec3[2]=vec2[1]*VEL_SCALE;
+
+            role.setVel(vec3);
         }
 
         @Override
@@ -111,7 +127,6 @@ public class TGLSurfaceView extends GLSurfaceView {
             wallsManager.draw(0);
             role.draw(0);
 
-
             MatrixState.popMatrix();
         }
 
@@ -122,6 +137,8 @@ public class TGLSurfaceView extends GLSurfaceView {
             MatrixState.copyMVMatrix();
             GLES20.glEnable(GLES20.GL_BLEND);
             GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+
+            moveController.draw(0);
 
             MatrixState.popMatrix();
         }

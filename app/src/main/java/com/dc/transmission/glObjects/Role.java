@@ -7,12 +7,13 @@ package com.dc.transmission.glObjects;
 public class Role implements TGLObjects {
     private float[] pos;
     private float[] vel;
-    private float[] cam;
+    private float[] cam,camh;
 
     public Role(){
         pos=new float[3];
         vel=new float[3];
-        cam=new float[6];
+        cam=new float[3];
+        camh=new float[3];
     }
 
     public void setPos(float[] pos) {
@@ -33,6 +34,10 @@ public class Role implements TGLObjects {
 
     public float[] getCam() {
         return cam;
+    }
+
+    public float[] getCamh(){
+        return camh;
     }
 
     public void runLogic(){

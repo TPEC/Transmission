@@ -3,13 +3,14 @@ package com.dc.transmission.glObjects;
 import android.graphics.RectF;
 import android.view.MotionEvent;
 
+import com.dc.transmission.gameData.VecFactory;
+
 /**
  * Created by Irene on 2017/4/8.
  */
 
 public class MoveController implements TGLObjects {
     private float[] moveVector = new float[2];
-    private float mVecLength;
     private int moveID=-1;
 
     private RectF rectDst;
@@ -71,9 +72,7 @@ public class MoveController implements TGLObjects {
             else{
                 moveVector[0] = x - rectDstMX;
                 moveVector[1] = y - rectDstMY;
-                mVecLength = (float) Math.sqrt(moveVector[0]*moveVector[0] + moveVector[1]*moveVector[1]);
-                moveVector[0] = moveVector[0] / mVecLength;
-                moveVector[1] = moveVector[1] / mVecLength;
+                VecFactory.unitize2(moveVector);
             }
             return true;
         }
